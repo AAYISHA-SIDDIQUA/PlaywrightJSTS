@@ -1,11 +1,12 @@
 import {test, expect, Page, Browser, chromium} from '@playwright/test';
 
 let page;
+let context;
 let browser;
 
 test.beforeAll('Launching the browser & assertions', async() => {
     browser = await chromium.launch();
-    const context = await browser.newContext();
+    context = await browser.newContext();
     page = await context.newPage();
     const blinkingText = await page.locator("[class='blinkingText']");
 
@@ -89,5 +90,26 @@ test('Dropdown actions', async() => {
     //To print the no of options present for that dropdown
     const dropDownOptionCount = await dropDown.locator('option').count();
     console.log("Dropdown options count are: ", dropDownOptionCount);
+
+});
+
+test('Switching Tab', async() => {
+    const switchTabText = await page.getByText('Switch Tab Example');
+    const newTabLinkButton = await page.getByRole('Link', {name: 'Open Tab'});
+
+    await expect(switchTabText).toBeVisible();
+    const [newPage] = await Promise.all([
+       context.waitForEvent('page'),
+       newTabLinkButton.click()
+    ]);
+
+    await expect(newPage).toHaveURL('https://www.qaclickacademy.com/');
+    let emailText = await newPage.locator("#header-part li span").last().textContent();
+    emailText = (emailText.split("@"))[1];
+
+    console.log("Email id contains ", emailText);
+    expect(await newPage.url().includes(emailText)).toBeTruthy();
+
+    await expect(newTabLinkButton).toHaveAttribute('id', 'opentab');
 
 });
