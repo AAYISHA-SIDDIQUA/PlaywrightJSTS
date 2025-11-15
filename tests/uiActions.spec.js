@@ -50,3 +50,33 @@ test('Checkbox validation', async() => {
     await thirdCheckBox.check();
     await expect(secondCheckBox, thirdCheckBox).toBeChecked();
 });
+
+
+test('Dropdown actions', async() => {
+    const dropText = page.getByText('Dropdown Example');
+    const dropDown = page.locator("#dropdown-class-example");
+    const dropString = '#dropdown-class-example';
+
+    await expect(dropText).toBeVisible();
+
+    //select by value
+    await dropDown.click();
+    await page.selectOption(dropString, 'option2');
+
+    //select by visible text
+    await dropDown.click();
+    await page.selectOption(dropString, {label: 'Option3'});
+
+    //select by index
+    await dropDown.click();
+    await page.selectOption(dropString, {index: 0});
+
+    //To fetch the text contents of all the options of dropdown
+    const dropTexts = await dropDown.allTextContents();
+    console.log("Drop Down texts are: ", dropTexts);
+
+    //To print the no of options present for that dropdown
+    const dropDownOptionCount = await dropDown.locator('option').count();
+    console.log("Dropdown options count are: ", dropDownOptionCount);
+
+});
