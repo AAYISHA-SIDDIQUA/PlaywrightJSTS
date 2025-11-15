@@ -36,9 +36,17 @@ test('Radio Button', async() => {
 test('Checkbox validation', async() => {
     const checkBoxText = page.getByText('Checkbox Example');
     const thirdCheckBox = page.locator('#checkBoxOption3');
+    const secondCheckBox = page.locator("[name='checkBoxOption2']");
 
     await expect(checkBoxText).toBeVisible();
     await expect(thirdCheckBox).not.toBeChecked();
     await thirdCheckBox.check();
     await expect(thirdCheckBox).toBeChecked();
+    
+    await thirdCheckBox.uncheck();
+    await expect(thirdCheckBox).not.toBeChecked();
+
+    await secondCheckBox.check();
+    await thirdCheckBox.check();
+    await expect(secondCheckBox, thirdCheckBox).toBeChecked();
 });

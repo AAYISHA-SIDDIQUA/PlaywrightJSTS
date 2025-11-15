@@ -45,7 +45,7 @@ test('Automate QA', async({page}) => {
 
 });
 
-test.only('Different Locators & waits', async({page}) => {
+test('Different Locators & waits', async({page}) => {
     await page.goto("https://ultimateqa.com/automation");
 
     //waitFor() method is used to wait for a single element match locator
