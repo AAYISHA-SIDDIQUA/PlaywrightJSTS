@@ -56,10 +56,13 @@ test('Different Locators & waits', async({page}) => {
     //waitForLoadState waits till all the network api calls are completed.
     await page.waitForLoadState('networkidle');
     const plan = await page.locator(".et_pb_pricing_title").all();
-    plan.forEach(async (p) => {
-        if (await p.textContent().toHaveText("Free")) {
-            await expect(p).toHaveClass("et_pb_pricing_title");
+    for(const p of plan) {
+        const content = await p.textContent();
+        
+        if (content.includes("Free")) {
+            await expect(p).toHaveClass('et_pb_pricing_title');
+            await expect(p).toHaveAttribute('class', 'et_pb_pricing_title');
         }
-    })
+    }
 
 });
