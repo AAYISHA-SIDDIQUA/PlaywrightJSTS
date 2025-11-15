@@ -18,10 +18,27 @@ test.beforeAll('Launching the browser & assertions', async() => {
 
 test('Radio Button', async() => {
     const radioButtonText = page.locator("#radio-btn-example legend");
-    const radioButton2 = page.locator('input[value=radio2]');
+    const radios = page.locator("input[name='radioButton']");
+    const radioButton2 = radios.nth(1);
+    const radioButton3 = radios.last();
 
     await expect(radioButtonText).toBeVisible();
+    console.log(await radios.count());
+
     await radioButton2.click();
     await expect(radioButton2).toBeChecked();
 
+    await radioButton3.click();
+    await expect(radioButton2).not.toBeChecked();
+    await expect(radioButton3).toBeChecked();
+});
+
+test('Checkbox validation', async() => {
+    const checkBoxText = page.getByText('Checkbox Example');
+    const thirdCheckBox = page.locator('#checkBoxOption3');
+
+    await expect(checkBoxText).toBeVisible();
+    await expect(thirdCheckBox).not.toBeChecked();
+    await thirdCheckBox.check();
+    await expect(thirdCheckBox).toBeChecked();
 });
