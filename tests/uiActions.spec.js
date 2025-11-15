@@ -31,6 +31,13 @@ test('Radio Button', async() => {
     await radioButton3.click();
     await expect(radioButton2).not.toBeChecked();
     await expect(radioButton3).toBeChecked();
+
+    //To get boolean value of whether the radio button is checked or not
+    const radioChecked = await radioButton3.isChecked();
+    console.log("Is the radio button checked? ", radioChecked);
+    
+    //The below command to pause the execution and it will also open playwright inspector
+    // await page.pause();
 });
 
 test('Checkbox validation', async() => {
@@ -43,8 +50,12 @@ test('Checkbox validation', async() => {
     await thirdCheckBox.check();
     await expect(thirdCheckBox).toBeChecked();
     
+    //We can use {not} to check for unchecked or not.
     await thirdCheckBox.uncheck();
     await expect(thirdCheckBox).not.toBeChecked();
+
+    //We can also use toBeFalsy() method in expect
+    expect(await thirdCheckBox.isChecked()).toBeFalsy();
 
     await secondCheckBox.check();
     await thirdCheckBox.check();
