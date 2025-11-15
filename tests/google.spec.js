@@ -47,9 +47,13 @@ test('Automate QA', async({page}) => {
 
 test.only('Different Locators & waits', async({page}) => {
     await page.goto("https://ultimateqa.com/automation");
+
+    //waitFor() method is used to wait for a single element match locator
+    await page.getByText("Fake Pricing Page").waitFor();
     const fakePriceLink = page.getByText("Fake Pricing Page");
     await fakePriceLink.click();
 
+    //waitForLoadState waits till all the network api calls are completed.
     await page.waitForLoadState('networkidle');
     const plan = await page.locator(".et_pb_pricing_title").all();
     plan.forEach(async (p) => {
