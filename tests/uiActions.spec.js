@@ -113,3 +113,20 @@ test('Switching Tab', async() => {
     await expect(newTabLinkButton).toHaveAttribute('id', 'opentab');
 
 });
+
+test('Switching Window', async() => {
+    const window = await page.getByRole('button', {name: 'Open Window'});
+
+    await expect(window).toBeVisible();
+    await window.click();
+
+    const [newWindow] = await Promise.all([
+        context.waitForEvent('page'),
+        window.click()
+    ]);
+
+    console.log(await newWindow.title());
+    await newWindow.close();
+    console.log(await page.title());
+});
+
