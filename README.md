@@ -18,3 +18,9 @@ npx playwright test --headed --project chromium --project --firefox --> run in h
 When tests fails, the report is displayed automatically
 But when tests passes, in order to see report run below command 
 npx playwright show-report
+
+If you want to run a single spec file, then use below command.
+npx playwright test tests/google.spec.js --headed --project chromium
+
+If you want to open playwright inspector to debug the code
+npx playwright test tests/google.spec.js --headed --project chromium --debug

@@ -126,6 +126,7 @@ test('Switching Window', async() => {
     ]);
 
 
+    await newWindow.waitForLoadState('networkidle');
     console.log(await newWindow.title());
     console.log(await page.title());
 });
