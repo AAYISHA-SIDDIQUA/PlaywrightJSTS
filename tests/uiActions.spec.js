@@ -125,8 +125,8 @@ test('Switching Window', async() => {
         window.click()
     ]);
 
+
     console.log(await newWindow.title());
-    await newWindow.close();
     console.log(await page.title());
 });
 
