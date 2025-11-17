@@ -35,6 +35,9 @@ test('checkout', async() => {
     const addToCartButton = page.locator(".card-body button");
     const countOfAddToCart = await addToCartButton.count();
 
+
+    //instead of below for loop, we can also use like blow 
+    //await products.filter({hasText: 'ADIDAS ORIGINAL'})
     for(let i=0; i < count; i++) {
         if(await products.nth(i).textContent() === "ADIDAS ORIGINAL") {
             console.log(await products.nth(i).textContent());
