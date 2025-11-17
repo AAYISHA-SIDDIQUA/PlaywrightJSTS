@@ -65,7 +65,7 @@ test('Checkbox validation', async() => {
 
 
 test('Dropdown actions', async() => {
-    const dropText = page.getByText('Dropdown Example');
+    const dropText = page.locator('legend:has-text("Dropdown Example")');
     const dropDown = page.locator("#dropdown-class-example");
     const dropString = '#dropdown-class-example';
 

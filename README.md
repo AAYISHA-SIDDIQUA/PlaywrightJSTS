@@ -24,3 +24,12 @@ npx playwright test tests/google.spec.js --headed --project chromium
 
 If you want to open playwright inspector to debug the code
 npx playwright test tests/google.spec.js --headed --project chromium --debug
+
+In order to use codegen capability of playwright, 
+npx playwright codegen 'website url'
+
+
+If you want trace logs, video and screenshots, you can add the config in playwright.config.js - use object
+It by default will be stored under test-results folder - for each test folder. 
+You can either go to https://trace.playwright.dev./ and select the trace.zip file and see the traces or use below command. 
+npx playwright show-trace test-results/google-Automate-QA-chromium/trace.zip
