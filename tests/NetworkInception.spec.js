@@ -69,9 +69,6 @@ test('Mock request/Network inception request', async({page}) => {
     }, response.token);
 
     await page.goto("https://rahulshettyacademy.com/client/");
-    await page.waitForLoadState('networkidle');
-
-    await page.goto("https://rahulshettyacademy.com/client/");
     await page.waitForLoadState('domcontentloaded');
 
     const orders = page.getByRole('button', {name: 'ORDERS'});
@@ -86,6 +83,18 @@ test('Mock request/Network inception request', async({page}) => {
     await page.getByRole('button', {name: 'View'}).first().click();
     await expect(page.locator('p').last()).toHaveText("You are not authorize to view this order");
 
+});
+
+test('Abort network calls & print logs', async({page}) => {
+        //The below line used to abort the network calls
+        await page.route('**/*{jpeg, png, jpg}', route=> route.abort());
+
+        page.on('request', request=> console.log(request.url()));
+        page.on('response', response => console.log(response.status(), response.url()));
+
+        await page.goto("https://rahulshettyacademy.com/client/");
+
+   
 });
 
 test.afterAll('After all tests', async() => {
