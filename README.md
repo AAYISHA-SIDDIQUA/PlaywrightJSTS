@@ -33,3 +33,14 @@ If you want trace logs, video and screenshots, you can add the config in playwri
 It by default will be stored under test-results folder - for each test folder. 
 You can either go to https://trace.playwright.dev./ and select the trace.zip file and see the traces or use below command. 
 npx playwright show-trace test-results/google-Automate-QA-chromium/trace.zip
+
+
+If in case you are having both UI and API tests in a single spec file, in order to debug, use below. 
+If we use npx playwright test --headed --debug -- this will open the inspector which will help us debug only the UI. 
+So, instead, we can add the above command along with a specific spec file name in the package.json file under the Script section. 
+  "scripts": {
+    "test" : "npx playwright test tests/UIApi.spec.js --headed"
+  },
+
+Then add breakpoint in the file. 
+Then open command paletter  - ctlr+ shift+p and click on Debug: Debug npm script to debug. 

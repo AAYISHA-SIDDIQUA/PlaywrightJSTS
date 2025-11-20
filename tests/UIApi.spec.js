@@ -1,5 +1,5 @@
-import {test, expect, request, chromium} from '@playwright/test';
-import { text } from 'stream/consumers';
+const {test, expect, request, chromium} = require('@playwright/test');
+const {APIUtils} = require('./utils/APIUtils');
 
 const payload = {userEmail:"aisha1@gmail.com",userPassword:"Nayeema@1997"};
 const orderPayload = {orders:[{country:"India",productOrderedId:"68a961719320a140fe1ca57c"}]}
@@ -9,8 +9,8 @@ let page;
 let browser;
 let context;
 let req;
-let token;
-let orderID;
+let response;
+
 
 test.describe.configure({mode: 'serial'});
 
@@ -19,43 +19,21 @@ test.beforeAll('Login using API', async() => {
     context =  await browser.newContext();
     page = await context.newPage();
     req = await request.newContext();
-    const res = await req.post("https://rahulshettyacademy.com/api/ecom/auth/login", 
-    {
-        data: payload
-    });
 
-    expect(res.ok()).toBeTruthy();
-    const loginRes = await res.json();
-    token = loginRes.token;
-    console.log(token);
+    const apiUtils = new APIUtils(req, payload);
+    response = await apiUtils.orderCreation(orderPayload);
+    console.log(response.token, "and", response.orderID);
 
 });
 
 test('Launch web page using token', async() => {
     page.addInitScript(value => {
         window.localStorage.setItem('token', value);
-    }, token);
+    }, response.token);
 
     await page.goto("https://rahulshettyacademy.com/client/");
     await page.waitForLoadState('networkidle');
     
-});
-
-test('create order through api', async() => {
-   
-    const orderAPI = await req.post('https://rahulshettyacademy.com/api/ecom/order/create-order', 
-    {
-        data: orderPayload,
-        headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json'
-        }
-    });
-
-    expect(orderAPI.ok()).toBeTruthy();
-    const responseJson = await orderAPI.json();
-    orderID = responseJson.orders[0];
-    console.log(orderID);
 });
 
 test('fetch order ID', async() => {
@@ -68,12 +46,12 @@ test('fetch order ID', async() => {
     await page.locator("tbody th").first().waitFor({state: 'visible'});
     const orderIDRow = page.locator("tbody tr");
     const countofOrder = await orderIDRow.count();
-    console.log(orderID, "and ", countofOrder);
+    console.log(response.orderID, "and ", countofOrder);
 
     for(let i =0; i< countofOrder; i++) {
         const textOrder = await orderIDRow.nth(i).locator("th").textContent();
-        console.log(textOrder.trim() , 'and ', orderID.trim());
-        if(orderID.trim().includes(textOrder)) {
+        console.log(textOrder.trim() , 'and ', response.orderID.trim());
+        if(response.orderID.trim().includes(textOrder)) {
             console.log('inside it');
             await orderIDRow.nth(i).getByText('View').click();
             break;
@@ -81,7 +59,7 @@ test('fetch order ID', async() => {
     }
     const orderText = await page.locator("[class='col-text -main']").textContent();
 
-    expect(orderText).toContain(orderID.replace(/\|/g, '').trim());
+    expect(orderText).toContain(response.orderID.replace(/\|/g, '').trim());
     await page.getByText("order summary").waitFor({state: 'visible'});
 
 });
