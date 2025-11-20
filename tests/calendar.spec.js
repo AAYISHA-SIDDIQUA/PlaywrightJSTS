@@ -34,6 +34,7 @@ test('More validations', async({page}) => {
 
     await page.waitForLoadState('networkidle');
     const editBox = page.locator("#displayed-text");
+    await page.locator("#hide-textbox").screenshot({path: 'screenshots/element.png'});
     const hide = page.locator("#hide-textbox");
 
     await expect(editBox).toBeVisible();
@@ -71,5 +72,15 @@ test('More validations', async({page}) => {
     await frame.locator("//span[text()='Close']").click();
     const isVisible = await frame.getByText('Browse Learning Paths').isVisible();
     console.log("The button is => ", isVisible);
+
+    //screenshots
+    await page.screenshot({
+        path: 'screenshots/fullPage.png',
+        fullPage: true
+    });
+
+
+    //visual testing by comparing the initial screeenshot with the current screenshot.
+    // expect(await page.screenshot()).toMatchSnapshot('Current.png');
 
 });
