@@ -3,6 +3,8 @@ const {LoginPage} = require("../pageObjects/LoginPage");
 const {ProductPage} = require("../pageObjects/ProductPage");
 const {CartPage} = require("../pageObjects/CartPage");
 const {SubmitOrderPage} = require("../pageObjects/SubmitOrderPage");
+const {OrdersPage} = require("../pageObjects/OrdersPage");
+
 
 
 let page;
@@ -44,31 +46,8 @@ test('checkout page', async() => {
 });
 
 test('fetch order ID', async() => {
-    const orders = page.getByRole('button', {name: 'ORDERS'});
-
-
-    await orders.click();
-    await page.waitForLoadState('networkidle');
-
-    await page.locator("tbody th").first().waitFor({state: 'visible'});
-    const orderIDRow = page.locator("tbody tr");
-    const countofOrder = await orderIDRow.count();
-    console.log(orderID, "and ", countofOrder);
-
-    for(let i =0; i< countofOrder; i++) {
-        const textOrder = await orderIDRow.nth(i).locator("th").textContent();
-        console.log(textOrder.trim() , 'and ', orderID.trim());
-        if(orderID.trim().includes(textOrder)) {
-            console.log('inside it');
-            await orderIDRow.nth(i).getByText('View').click();
-            break;
-        }
-    }
-    const orderText = await page.locator("[class='col-text -main']").textContent();
-
-    expect(orderText).toContain(orderID.replace(/\|/g, '').trim());
-    await page.getByText("order summary").waitFor({state: 'visible'});
-
+    const ordersPage = new OrdersPage(page, expect);
+    await ordersPage.viewOrderDetails(orderID);
 });
 
 test.afterAll('After all tests', async() => {
