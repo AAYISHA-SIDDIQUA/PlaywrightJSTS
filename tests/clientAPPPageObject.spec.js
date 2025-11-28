@@ -14,6 +14,7 @@ const dataSet = JSON.parse(JSON.stringify(require("../testData/userData.json")))
 
 
 //Commented below. You can uncomment and run if you are not going with test parameterization.
+//By default playwright tests run in parallel.
 // test.describe.configure({mode: 'parallel'});
 
 //test parameterization
