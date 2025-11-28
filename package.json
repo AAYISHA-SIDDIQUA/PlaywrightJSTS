@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test" : "npx playwright test tests/UIApi.spec.js --headed"
+    "test": "npx playwright test tests/UIApi.spec.js --headed",
+    "alluretest": "npx playwright test --headed --project chromium --grep @Web --reporter=line,allure-playwright && allure generate ./allure-results --clean && allure open ./allure-report"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "@types/node": "^24.10.1"
+    "@types/node": "^24.10.1",
+    "allure-playwright": "^3.4.2"
   }
 }

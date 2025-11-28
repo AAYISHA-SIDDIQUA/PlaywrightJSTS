@@ -79,3 +79,24 @@ test('@Web First test case', async({page}) => {
 
 After adding tags like above to all the tests cases, you can run the test cases which has only the specific tags as below.
 npx playwright test --headed --project chromium --grep '@Web'
+
+
+ALLURE REPORTING: 
+To download - npm install -D allure-playwright
+
+Once downloaded, run the tests like below:
+npx playwright test --headed --project chromium --grep '@Web' --reporter=line,allure-playwright
+
+Once the tests are completed running, you will see a folder called allure-results in your framework. 
+Now run - allure generate ./allure-results -> to make it in a readable report. 
+Now to open the report -- allure open ./allure-report --> this will start the server where you will see the allure report
+
+
+In order to make the tests run easy, i have grouped together all commands and provided in package.json scripts. 
+  "scripts": {
+    "test": "npx playwright test tests/UIApi.spec.js --headed",
+    "alluretest": "npx playwright test --headed --project chromium --grep @Web --reporter=line,allure-playwright && allure generate ./allure-results --clean && allure open ./allure-report"
+  },
+
+  now you can just run with --> npm run alluretest
+  It will run the tests, generate allure results and automatically open the allure report as well.

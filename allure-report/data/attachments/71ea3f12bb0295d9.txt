@@ -1,0 +1,5 @@
+Hello , share this practice page and share your knowledge
+alert
+Hello , Are you sure you want to confirm?
+confirm
+The button is =>  true
