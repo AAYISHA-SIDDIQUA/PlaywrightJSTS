@@ -44,3 +44,10 @@ So, instead, we can add the above command along with a specific spec file name i
 
 Then add breakpoint in the file. 
 Then open command paletter  - ctlr+ shift+p and click on Debug: Debug npm script to debug. 
+
+Additionally, lets say your scripts fail with some application issue or some script level issue and you are in ui mode. 
+Then in the Error section- Copy prompt button will be available which you can click to copy the detailed instructions of the error message and solution prompt to ask for any LLM. And you can paste that into any LLM like gemini, copilot, claude and get the solution for it.
+
+
+You can also have multiple config files created but not recommended though and run the specific tests with specific config file. 
+npx playwright test test file path --headed --config playwright.config1.js

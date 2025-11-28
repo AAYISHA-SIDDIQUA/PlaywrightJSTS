@@ -1,5 +1,7 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+import { on } from 'events';
+import { off } from 'process';
 
 /**
  * Read environment variables from file.
@@ -47,21 +49,30 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { 
-        browserName: 'chromium'
+        browserName: 'chromium',
+        headless: false,
+        screenshot: 'on', 
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure'
        },
     },
 
     {
       name: 'firefox',
       use: { 
-        browserName: 'firefox'
+        browserName: 'firefox',
+        headless: false,
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure'
        },
     },
 
     {
       name: 'webkit',
       use: { 
-        browserName: 'webkit'
+        browserName: 'webkit',
+        headless: true
        },
     },
 
