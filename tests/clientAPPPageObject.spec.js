@@ -8,6 +8,10 @@ import {test, expect, Browser, Page, chromium} from '@playwright/test';
 //I have commented the above imports and will be importing just POManager to get all the other objects of the Page object files.
 const {POManager} = require("../pageObjects/POManager");
 
+//Here, we are first converting JS object to proper JSON string - basically serialization. Then deserializing with parse to have 
+//js object
+const dataSet = JSON.parse(JSON.stringify(require("../testData/userData.json")));
+
 
 
 let page;
@@ -24,13 +28,11 @@ test.beforeAll('Login to client app', async() => {
     context = await browser.newContext();
     page = await context.newPage();
 
-    const username = "aisha1@gmail.com";
-    const password = "Nayeema@1997";
     poManager = new POManager(page, expect);
 
     const loginPage = poManager.getLoginPage();
     await loginPage.navigateTo();
-    await loginPage.enterCredentials(username, password);
+    await loginPage.enterCredentials(dataSet.username, dataSet.password);
 
 });
 
