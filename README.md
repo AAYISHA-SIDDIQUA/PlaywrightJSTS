@@ -60,3 +60,22 @@ First param is for the CI execution and second for the local.
 This will only work when we are working with test() of playwright and not with any custom fixture or custom extended data.
 This is used to handle flaky tests and the tests which fails in the first attempt and then passess when retrying 1st time, will
 be considered as a flaky tests. In report as well, it will be categorized as flaky tests. 
+
+By default, playwright runs tests cases within a single file in serial way. 
+If you want to enable parallel execution, we can just set the workers to more than 1 in playwrihgt.config.js
+workers: 3
+npx playwright test --headed --workers=4
+
+if you want to run the tests cases within a single file in parallel, then you can set in the test file level the below one.
+test.describe.configure({mode: 'parallel'});
+test.describe.configure({mode: 'serial'});
+
+If we run tests cases in serial in a single test file, and if first test case fails, then it will skip the remaining tests cases. There is a interdependency when we run tests in serial in a single test file. 
+
+If you want to add tags to the test cases, you can give the tag in the test name. 
+test('@Web First test case', async({page}) => {
+  await page.goto("https://www.google.com/");
+})
+
+After adding tags like above to all the tests cases, you can run the test cases which has only the specific tags as below.
+npx playwright test --headed --project chromium --grep '@Web'

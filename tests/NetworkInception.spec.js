@@ -28,7 +28,7 @@ test.beforeAll('Login using API', async() => {
 });
 
 
-test('Mocking response/network inception', async() => {
+test('@API Mocking response/network inception', async() => {
 
     page.addInitScript(value => {
         window.localStorage.setItem('token', value);

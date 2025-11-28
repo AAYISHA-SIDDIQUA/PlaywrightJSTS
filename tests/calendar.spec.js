@@ -1,6 +1,6 @@
 import {test, expect} from '@playwright/test';
 
-test('Calendar functions', async({page}) => {
+test('@Web Calendar functions', async({page}) => {
 
     const month = '11';
     const date = '4';
@@ -25,7 +25,7 @@ test('Calendar functions', async({page}) => {
 });
 
 
-test('More validations', async({page}) => {
+test('@Web More validations', async({page}) => {
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
     await page.goto("https://www.google.com");
     await page.goBack();

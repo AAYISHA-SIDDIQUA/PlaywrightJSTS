@@ -21,7 +21,7 @@ const dataSet = JSON.parse(JSON.stringify(require("../testData/userData.json")))
 
 for(const data of dataSet) {
 
-    test.describe(`E commerce Product Ordering E2E Flow for ${data.username} - ${data.productName}`, () => {
+    test.describe(`@Web E commerce Product Ordering E2E Flow for ${data.username} - ${data.productName}`, () => {
         test.describe.configure({mode: 'serial'});
         let page;
         let browser;
