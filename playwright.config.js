@@ -53,7 +53,16 @@ export default defineConfig({
         headless: false,
         screenshot: 'on', 
         video: 'retain-on-failure',
-        trace: 'retain-on-failure'
+        trace: 'retain-on-failure',
+        //to ignore and accept the ssl certificate error in website - like when we have to click advanced option and then go to website, we can addbelow
+        ignoreHTTPSErrors: true,
+        //lets say you have popup asking for location access, then you can provide permission from playwright to handle automatically
+        permissions: ['geolocation']
+        //commented viewport as i want to run in full length. You can uncomment if you have the need to change the size of the window.
+        // viewport: {
+        //   width: 720,
+        //   height: 720
+        // }
        },
     },
 
@@ -72,7 +81,8 @@ export default defineConfig({
       name: 'webkit',
       use: { 
         browserName: 'webkit',
-        headless: true
+        headless: true,
+        ...devices['BlackBerry Z30']
        },
     },
 
