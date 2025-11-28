@@ -51,3 +51,12 @@ Then in the Error section- Copy prompt button will be available which you can cl
 
 You can also have multiple config files created but not recommended though and run the specific tests with specific config file. 
 npx playwright test test file path --headed --config playwright.config1.js
+
+
+Retry: 
+We can rerun the failing test cases with the help of retry key in config file. 
+  retries: process.env.CI ? 2 : 1,
+First param is for the CI execution and second for the local. 
+This will only work when we are working with test() of playwright and not with any custom fixture or custom extended data.
+This is used to handle flaky tests and the tests which fails in the first attempt and then passess when retrying 1st time, will
+be considered as a flaky tests. In report as well, it will be categorized as flaky tests. 
