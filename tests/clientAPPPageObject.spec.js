@@ -13,52 +13,59 @@ const {POManager} = require("../pageObjects/POManager");
 const dataSet = JSON.parse(JSON.stringify(require("../testData/userData.json")));
 
 
+//Commented below. You can uncomment and run if you are not going with test parameterization.
+// test.describe.configure({mode: 'parallel'});
 
-let page;
-let browser;
-let context;
-let orderID;
-let poManager;
+//test parameterization
 
+for(const data of dataSet) {
 
-test.describe.configure({mode: 'serial'});
+    test.describe(`E commerce Product Ordering E2E Flow for ${data.username} - ${data.productName}`, () => {
+        test.describe.configure({mode: 'serial'});
+        let page;
+        let browser;
+        let context;
+        let orderID;
+        let poManager;
+        
+        test.beforeAll(`Login to client app for ${data.productName}`, async() => {
+            browser = await chromium.launch();
+            context = await browser.newContext();
+            page = await context.newPage();
 
-test.beforeAll('Login to client app', async() => {
-    browser = await chromium.launch();
-    context = await browser.newContext();
-    page = await context.newPage();
+            poManager = new POManager(page, expect);
 
-    poManager = new POManager(page, expect);
+            const loginPage = poManager.getLoginPage();
+            await loginPage.navigateTo();
+            await loginPage.enterCredentials(data.username, data.password);
 
-    const loginPage = poManager.getLoginPage();
-    await loginPage.navigateTo();
-    await loginPage.enterCredentials(dataSet.username, dataSet.password);
+        });
 
-});
+        test(`checkout ${data.productName}`, async() => {
 
-test('checkout', async() => {
+            const productPage = poManager.getProductPage();
+            const cartPage = poManager.getCartPage();
+            await productPage.addProducts(data.productName);
 
-    const productPage = poManager.getProductPage();
-    const cartPage = poManager.getCartPage();
-    await productPage.addProducts();
+            await cartPage.checkoutProducts(data.productName);
 
-    await cartPage.checkoutProducts();
+        });
 
-});
+        test(`checkout page  ${data.productName}`, async() => {
+            const submitOrderPage = poManager.getSubmitOrderPage();
+            await submitOrderPage.submitOrder();
+            orderID = await submitOrderPage.fetchOrderID();
+            console.log(orderID);
+        });
 
-test('checkout page', async() => {
-    const submitOrderPage = poManager.getSubmitOrderPage();
-    await submitOrderPage.submitOrder();
-    orderID = await submitOrderPage.fetchOrderID();
-    console.log(orderID);
-});
+        test(`fetch order ID  ${data.productName}`, async() => {
+            const ordersPage = poManager.getOrdersPage();
+            await ordersPage.viewOrderDetails(orderID);
+        });
 
-test('fetch order ID', async() => {
-    const ordersPage = poManager.getOrdersPage();
-    await ordersPage.viewOrderDetails(orderID);
-});
-
-test.afterAll('After all tests', async() => {
-    console.log("Test Finished");
-});
-
+        test.afterAll(`After all tests  ${data.productName}`, async() => {
+            await browser.close();
+            console.log("Test Finished");
+        });
+    })
+}

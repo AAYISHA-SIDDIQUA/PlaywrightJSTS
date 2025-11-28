@@ -1,4 +1,12 @@
-{
-    "username": "aisha1@gmail.com",
-    "password": "Nayeema@1997"
-}
+[
+    {
+        "username": "aisha1@gmail.com",
+        "password": "Nayeema@1997",
+        "productName": "ADIDAS ORIGINAL"
+    },
+    {
+        "username": "testspace@gmail.com",
+        "password": "Testspace@97",
+        "productName": "ZARA COAT 3"
+    }
+]

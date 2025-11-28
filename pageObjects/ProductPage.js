@@ -8,7 +8,7 @@ class ProductPage{
     }
 
 
-    async addProducts() {
+    async addProducts(productName) {
         await this.cartBody.waitFor({state: 'visible'});
 
         const count = await this.products.count();
@@ -20,7 +20,7 @@ class ProductPage{
         //instead of below for loop, we can also use like blow 
         //await products.filter({hasText: 'ADIDAS ORIGINAL'})
         for(let i=0; i < count; i++) {
-            if(await this.products.nth(i).textContent() === "ADIDAS ORIGINAL") {
+            if(await this.products.nth(i).textContent() === productName) {
                 console.log(await this.products.nth(i).textContent());
                 for(let n=i*2; n < countOfAddToCart; n++) {
                     if(await this.addToCartButton.nth(n).textContent() === " Add To Cart") {
